@@ -32,4 +32,23 @@ describe("anchor-counter", () => {
         const account = await program.account.counter.fetch(counter.publicKey);
         expect(account.count.toNumber()).to.equal(1);
     });
+    it("Incremented the count again", async () => {
+        const tx = await program.methods
+            .increment()
+            .accounts({counter: counter.publicKey, user: provider.wallet.publicKey})
+            .rpc();
+
+        const account = await program.account.counter.fetch(counter.publicKey);
+        expect(account.count.toNumber()).to.equal(2);
+    });
+
+    it("Decrement the count", async () => {
+        await program.methods
+            .decrement()
+            .accounts({counter: counter.publicKey, user: provider.wallet.publicKey})
+            .rpc();
+
+        const account = await program.account.counter.fetch(counter.publicKey);
+        expect(account.count.toNumber()).to.equal(1);
+    });
 });

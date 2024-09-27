@@ -21,6 +21,14 @@ pub mod temp_project {
         msg!("Counter Incremented. Current count: {}", counter.count);
         Ok(())
     }
+
+    pub fn decrement(ctx: Context<Update>) -> Result<()> {
+        let counter = &mut ctx.accounts.counter;
+        msg!("Previous count: {}", counter.count);
+        counter.count = counter.count.checked_sub(1).unwrap();
+        msg!("Counter Decremented. Current count: {}", counter.count);
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
